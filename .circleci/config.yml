@@ -21,4 +21,4 @@ jobs:
       - run: yarn deploy
       - run: git config user.name "Eman-BK-201" # 你的 github username
       - run: git config user.email "ghoster0@126.com" # 你的 github email
-      - run: npx gh-pages -d public -r https://${gh_token}@github.com/Eman-BK-201/Eman-BK-201.github.io.git -b master -m "Updated by circleci - `date`" # ${gh_token}, 这个token就是具有写权限的github token, 会在 circleci 配置。
+      - run: npx gh-pages -d public -r https://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@github.com/Eman-BK-201/Eman-BK-201.github.io.git -b master -m "Updated by circleci - `date`" # ${gh_token}, 这个token就是具有写权限的github token, 会在 circleci 配置。
