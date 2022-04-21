@@ -1,24 +1,21 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: node:latest
-    working_directory: ~/acyort
-    branches:
-      only:
-        - master
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - run: yarn deploy
-      - run: git config user.name "Eman-BK-201" # 你的 github username
-      - run: git config user.email "ghoster0@126.com" # 你的 github email
-      - run: npx gh-pages -d public -r https://${gh_token}@github.com/Eman-BK-201/Eman-BK-201.github.io.git -b master -m "Updated by circleci - `date`" # ${gh_token}, 这个token就是具有写权限的github token, 会在 circleci 配置。
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  node: circleci/node@4.7
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - node/test:
+          # This is the node version to use for the `cimg/node` tag
+          # Relevant tags can be found on the CircleCI Developer Hub
+          # https://circleci.com/developer/images/image/cimg/node
+          version: '16.10'
+          # If you are using yarn, change the line below from "npm" to "yarn"
+          pkg-manager: npm
